@@ -1,0 +1,30 @@
+#include <bits/stdc++.h>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int K = 0;
+    cin >> K;
+    
+    if(K == 1){
+        cout << 0 << " " << 1;
+    }
+    else{
+    
+    vector<pair<int, int>> dp(K+1,{0, 0});
+    
+    dp[0] = {1,0};
+    dp[1] = {0,1};
+    
+    for(int i = 2; i <= K; i++){
+        dp[i] = {dp[i-1].second, dp[i-1].second + dp[i-1].first};
+    }
+    
+    cout << dp[K].first << " " << dp[K].second;
+}
+    
+}
