@@ -1,0 +1,28 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    int N;
+    cin >> N;
+    const int MOD = 1000000000;
+
+    vector<vector<int>> dp(N+1, vector<int>(10,0));
+
+    // 초기값
+    for(int j=1;j<=9;j++) dp[1][j] = 1;
+
+    // DP 계산
+    for(int i=2;i<=N;i++){
+        for(int j=0;j<10;j++){
+            if(j==0) dp[i][0] = dp[i-1][1] % MOD;
+            else if(j==9) dp[i][9] = dp[i-1][8] % MOD;
+            else dp[i][j] = (dp[i-1][j-1] + dp[i-1][j+1]) % MOD;
+        }
+    }
+
+    int ans = 0;
+    for(int j=0;j<=9;j++) ans = (ans + dp[N][j]) % MOD;
+
+    cout << ans;
+}
