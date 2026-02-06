@@ -1,0 +1,71 @@
+#include <iostream>
+#include <cmath>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+long long gcd(long long a, long long b) {
+
+    while(b != 0){
+        long long tmp = b;
+        b = a % b;
+        a = tmp;
+    }
+
+    return a;
+}
+
+long long gcdArray(vector<long long>vec, int n) {
+    long long result = vec[0];
+    for(int i = 1; i < n; i++) {
+        result = gcd(result, vec[i]);
+    }
+    return result;
+}
+
+vector<long long> getDivisors(long long a){
+    vector<long long> divisors;
+    for(long long i = 2; i * i <= a; i++){  
+        if(a % i == 0){
+            divisors.push_back(i);
+            if(i != a / i){
+                divisors.push_back(a / i);
+            }
+        }
+    }
+    divisors.push_back(a);  // ✅ GCD 자체도 추가!
+    sort(divisors.begin(), divisors.end());
+    return divisors;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int N;
+    cin >> N;
+
+    vector<long long>numbers;
+
+    for(int i = 0; i < N; i++){
+        long long a;
+        cin >> a;
+        numbers.push_back(a);
+    }
+
+    sort(numbers.begin(),numbers.end());
+
+    vector<long long>vec;
+  
+    for(int i = 0; i < N - 1;i++){
+        for(int j = i + 1; j < N;j++){
+            vec.push_back(numbers[j] - numbers[i]);
+        }}
+
+    vector<long long>ans = getDivisors(gcdArray(vec,vec.size()));
+    
+    for(auto & i : ans){
+        cout << i << ' ';
+    }
+ 
+}
