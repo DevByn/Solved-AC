@@ -1,0 +1,58 @@
+#include<iostream>
+#include<vector>
+#include<stack>
+#include<algorithm>
+#include<cmath>
+#include<string>
+#include<set>
+#include <map>
+#include <unordered_map>
+
+using namespace std;
+
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    vector<int>decimal;
+
+    for(int i = 2; i < 10001; i++){
+        bool chk {1};
+        for(auto &j: decimal){
+            if(i % j == 0){
+                chk = 0;
+                break;
+            }
+        }
+        if(chk == 1){
+                decimal.push_back(i);
+            }
+    }
+
+    bool isPrime[10001] = {0};
+
+    for(auto & i : decimal){
+        isPrime[i] = 1;
+    }
+
+    int t;
+    cin >> t;
+    for(int i = 0; i < t; i++){
+    int n;
+    cin >> n;
+
+    pair<int,int> ans;
+    int chk = n/2;
+    
+    while(true){
+        if(isPrime[chk] == 1 && isPrime[n-chk] == 1){
+            ans = {chk,n-chk};
+            break;
+        }
+        chk--;
+    }
+    cout << ans.first << ' ' << ans.second << endl;
+    }
+}
+
+    
