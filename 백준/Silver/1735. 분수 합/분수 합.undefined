@@ -1,0 +1,48 @@
+#include <iostream>
+#include <cmath>
+#include <vector>
+using namespace std;
+
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    vector<int>decimal;
+
+    for(int i = 2; i < 30001; i++){
+        bool chk {1};
+        for(auto&j : decimal){
+            if(i % j == 0){
+                chk = 0;
+                break;
+            }
+        }
+        if(chk == 1){
+            decimal.push_back(i);
+        }
+    }
+
+    int au,ad;
+    cin >> au >> ad;
+    int bu,bd;
+    cin >> bu >> bd;
+
+    int cu = (au * bd) + (bu * ad); 
+    int cd = ad * bd;
+
+    int i = 0;
+    while(true){
+        if(decimal[i] > cu || decimal[i] > cd || i >= decimal.size()){
+                break;
+            }
+        if(cu % decimal[i] == 0 && cd % decimal[i]== 0){
+            cu = cu / decimal[i];
+            cd = cd / decimal[i];
+            continue;
+        }
+        i++;
+    }
+
+    cout << cu << ' ' << cd;
+}
