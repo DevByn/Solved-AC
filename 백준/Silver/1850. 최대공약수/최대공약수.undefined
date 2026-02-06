@@ -1,0 +1,29 @@
+#include <iostream>
+#include <cmath>
+#include <algorithm>
+#include <vector>
+#include <climits>
+using namespace std;
+
+long long gcd(long long a, long long b){
+    while(b != 0){
+        long long tmp = b;
+        b = a % b;
+        a = tmp;
+    }
+    return a;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long A,B;
+    cin >> A >> B;
+
+    long long ans = gcd(A,B);
+
+    for(long long i = 0; i < ans; i++) {
+        cout << "1";
+    }
+}
