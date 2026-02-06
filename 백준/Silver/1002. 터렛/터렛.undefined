@@ -1,0 +1,42 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int t;
+    cin >> t;
+    
+    while(t--) {
+        int x1, y1, r1, x2, y2, r2;
+        cin >> x1 >> y1 >> r1 >> x2 >> y2 >> r2;
+        
+        long long d_sq = (long long)(x1-x2)*(x1-x2) + (long long)(y1-y2)*(y1-y2);
+        long long sum_sq = (long long)(r1+r2)*(r1+r2);
+        long long diff_sq = (long long)(r1-r2)*(r1-r2);
+        
+        // 1. 무한대: 완전히 겹침
+        if(d_sq == 0 && r1 == r2) {
+            cout << -1 << '\n';
+        }
+        // 2. 0개: 중심 같은데 반지름 다름
+        else if(d_sq == 0 && r1 != r2) {
+            cout << 0 << '\n';
+        }
+        // 3. 1개: 외접 또는 내접
+        else if(d_sq == sum_sq || d_sq == diff_sq) {
+            cout << 1 << '\n';
+        }
+        // 4. 2개: 두 점에서 만남
+        else if(diff_sq < d_sq && d_sq < sum_sq) {
+            cout << 2 << '\n';
+        }
+        // 5. 0개: 떨어져 있거나 포함됨
+        else {
+            cout << 0 << '\n';
+        }
+    }
+    
+    return 0;
+}
