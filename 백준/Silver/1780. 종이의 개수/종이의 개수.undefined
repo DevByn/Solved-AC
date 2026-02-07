@@ -1,0 +1,86 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <cmath>
+#include <algorithm>
+using namespace std;
+
+
+
+int checkSquare(const vector<vector<int>>& v, int row_start, int col_start, int row_end, int col_end){
+    int start = v[row_start][col_start];
+    int chk;
+    if(start == -1){
+        chk = -1;
+    }
+    else if(start == 0){
+        chk = 0;
+    }
+    else if(start == 1){
+        chk = 1;
+    }
+    
+    for(int i = row_start; i < row_end;i++){
+        for(int j = col_start; j < col_end;j++){
+            if(v[i][j] != start){
+                return 2;
+            }
+    }
+    }
+    return chk;
+}
+
+void divideSquare(const vector<vector<int>>& v, int N,int row_start, int col_start, int row_end, int col_end, tuple<int,int,int>& count){
+    
+    int chk = checkSquare(v,row_start,col_start,row_end,col_end);
+
+    if(chk == -1){
+         get<0>(count) += 1; 
+    }
+    else if(chk == 0){
+        get<1>(count) += 1; 
+    }
+    else if(chk == 1){
+        get<2>(count) += 1; 
+    }
+    else{
+        divideSquare(v,N/3,row_start,col_start,row_end-(2*N)/3,col_end-(2*N)/3,count);
+        divideSquare(v,N/3,row_start,col_start+N/3,row_end-(2*N)/3,col_end-N/3,count);
+        divideSquare(v,N/3,row_start,col_start+(2*N)/3,row_end-(2*N)/3,col_end,count);
+        
+        divideSquare(v,N/3,row_start+N/3,col_start,row_end-N/3,col_end-(2*N)/3,count);
+        divideSquare(v,N/3,row_start+N/3,col_start+N/3,row_end-N/3,col_end-N/3,count);
+        divideSquare(v,N/3,row_start+N/3,col_start+(2*N)/3,row_end-N/3,col_end,count);
+        
+        divideSquare(v,N/3,row_start+(2*N)/3,col_start,row_end,col_end-(2*N)/3,count);
+        divideSquare(v,N/3,row_start+(2*N)/3,col_start+N/3,row_end,col_end-N/3,count);
+        divideSquare(v,N/3,row_start+(2*N)/3,col_start+(2*N)/3,row_end,col_end,count);
+    }
+
+}
+
+
+int main() {
+
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int N;
+    cin >> N;
+
+    vector<vector<int>>v(N,vector<int>(N));
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            cin >> v[i][j];
+        }
+    }
+
+    tuple<int,int,int>count = {0,0,0};
+    divideSquare(v,N,0,0,N,N,count);
+    
+    cout << get<0>(count) << endl;
+    cout << get<1>(count) << endl;
+    cout << get<2>(count) << endl;
+    
+    return 0;
+}
