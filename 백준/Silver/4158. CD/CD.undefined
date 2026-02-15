@@ -1,0 +1,48 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+long long binary_search(vector<long long>& v, long long target){
+    int left = 0; 
+    int right = v.size();
+    while(left < right){
+        int mid = left + (right - left) / 2;
+        if(v[mid] == target){
+            return 1;
+        }
+        else if(v[mid] < target){
+            left = mid + 1;
+        }
+        else{
+            right = mid;
+        }
+    }
+    return 0;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int N, M;
+    while(cin >> N >> M && (N != 0 || M != 0)){
+        vector<long long> sang(N);
+        vector<long long> sunn(M);  
+        
+        for(int i = 0; i < N; i++){
+            cin >> sang[i];
+        }
+        for(int i = 0; i < M; i++){  
+            cin >> sunn[i];
+        }
+        
+        long long sum = 0;
+        for(auto &i : sunn){
+            sum += binary_search(sang, i);
+        }
+        cout << sum << '\n';
+    }
+    
+    return 0;
+}
