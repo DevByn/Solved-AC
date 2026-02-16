@@ -1,0 +1,51 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <algorithm>
+#include <string>
+
+using namespace std;
+
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    long long x;
+    while(cin >> x){
+    int N;
+    cin >> N;
+    vector<long long>v(N);
+   
+    for(int i = 0; i < N; i++){
+        cin >> v[i];
+    }
+    sort(v.begin(),v.end());
+    
+    int left = 0; int right = N - 1;
+
+    bool chk {0};
+    pair<long long,long long>ans;
+    
+    while(left < right){
+        if(v[left] + v[right] == x * 10000000){
+            chk = 1;
+            ans.first = v[left];
+            ans.second = v[right];
+            break;
+        }
+        
+        if(v[left] + v[right] <= x * 10000000){
+            left++;
+        }
+        else{
+            right--;
+        }
+    }
+    if(chk == 0){
+        cout << "danger" << '\n';
+    }
+    else{
+        cout << "yes" << ' ' << ans.first << ' ' << ans.second << '\n';
+    }
+    }
+}
