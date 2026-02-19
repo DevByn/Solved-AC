@@ -1,0 +1,41 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int T;
+    cin >> T;
+    for(int i = 0; i < T; i++){
+        int A,B;
+        cin >> A >> B;
+        vector<int>vecA(A);
+        for(int a = 0; a < A ;a++){
+            cin >> vecA[a];
+        }
+        vector<int>vecB(B);
+        for(int b = 0; b < B ;b++){
+            cin >> vecB[b];
+        }
+
+        sort(vecA.begin(),vecA.end());
+        sort(vecB.begin(),vecB.end());
+        int ans {0};
+        for(auto& i : vecA){
+            for(auto& j : vecB){
+                if(i > j){
+                    ans++;
+                }
+            }
+        }
+        cout << ans << endl;
+    }
+    
+    
+}
