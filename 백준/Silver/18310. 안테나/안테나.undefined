@@ -1,0 +1,77 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+void merge_(vector<int>&v, int left, int right);
+
+void mergesort(vector<int>&v, int left, int right){
+
+    if(left == right){
+        return;
+    }
+    
+    mergesort(v,left,left + (right - left)/2);
+    mergesort(v,left + (right - left)/2 + 1,right);
+    merge_(v,left,right);
+}
+
+void merge_(vector<int>&v, int left, int right){
+
+    int mid = left + (right - left)/2;
+    vector<int>L(mid - left + 1);
+    vector<int>R(right - mid);
+
+    for(int i = 0; i < mid - left + 1; i++){
+        L[i] = v[left + i];
+    }
+    for(int i = 0; i < right - mid; i++){
+        R[i] = v[mid + 1 + i];
+    }
+
+    int i = 0; int j = 0; int ans = 0;
+
+    while(i < mid - left + 1 && j < right - mid){
+        if(L[i] <= R[j]){
+            v[left + ans] = L[i];
+            i++;
+        }
+        else{
+            v[left + ans] = R[j];
+            j++;
+        }
+        ans++;
+    }
+
+    while(i < mid - left + 1){
+        v[left + ans] = L[i];
+        ans++;
+        i++;
+    }
+
+    while(j < right - mid){
+        v[left + ans] = R[j];
+        ans++;
+        j++;
+    }
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int N;
+    cin >> N;
+    vector<int>v(N);
+    for(int i = 0; i < N; i++){
+        cin >> v[i];
+    }
+    mergesort(v,0,N-1);
+
+    cout << v[(N-1)/2];
+    
+    
+}
