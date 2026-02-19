@@ -1,0 +1,87 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <algorithm>
+#include <string>
+#include <set>
+using namespace std;
+pair<int,int> binary_target(vector<pair<long long,int>>&right,long long target,int i){
+    int down = 0; int up = right.size();
+    while(down < up){
+        int mid = down + (up - down) / 2;
+            
+        if(right[mid].first <= target){
+            down = mid + 1;
+        }
+            
+        else{
+            up = mid;
+        }
+    }
+    for(int k = down; k <= down+1 && k < (int)right.size(); k++){
+        if(right[k].second == i) continue;
+        return {i+1, right[k].second+1};
+    }
+    return {-2,-2};
+}
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    long long A, B;
+    cin >> A >> B;
+    int N;
+    cin >> N;
+    vector<long long>left(N);
+    vector<pair<long long,int>>right(N);
+    
+    for(int i = 0; i < N; i++){
+        cin >> left[i] >> right[i].first;
+        right[i].second = i;
+    }
+    vector<pair<long long,int>>sorted_right = right;
+    sort(sorted_right.begin(),sorted_right.end());
+    if(B > A){
+        cout << -1 << ' ' << -1;
+    }
+    else{ 
+        
+    long long chk {200000001};
+    pair<int,int>ans;
+        
+    for(int i = 0; i < N ;i++){
+        long long cnt = A - B - left[i];
+        if(left[i] >= A-B+1){
+            pair<int,int>p = {i+1,-1};
+        if(chk > left[p.first-1]){
+            chk = left[p.first-1];
+            ans = p;
+        };
+        }
+        else{
+        pair<int,int>p = binary_target(sorted_right,cnt,i);
+        if(p.first == -2 && p.second == -2){
+            continue;
+        }
+        if(chk > left[p.first-1] + right[p.second-1].first){
+            chk = left[p.first-1] + right[p.second-1].first;
+            ans = p;
+        };
+        } 
+    }
+    long long cnt = A - B;
+    pair<int,int>p = binary_target(sorted_right,cnt,-2);
+    if(p.first == -2 && p.second == -2){
+        
+    }
+    else if(chk > right[p.second-1].first){
+        chk = right[p.second-1].first;
+        ans = {-1, p.second};
+    };
+    if(chk == 200000001){
+        cout << "No";
+    }
+    else{
+    cout << ans.first << ' ' << ans.second;
+        }
+    }
+    }
