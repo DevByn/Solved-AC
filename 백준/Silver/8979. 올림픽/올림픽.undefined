@@ -1,0 +1,54 @@
+#include <iostream>
+#include <stack>
+#include <vector>
+#include <cmath>
+#include <algorithm>
+#include <map>
+
+using namespace std;
+
+bool makerank(tuple<int,int,int,int>t1,tuple<int,int,int,int>t2){
+    if(get<1>(t1) == get<1>(t2) && get<2>(t1) == get<2>(t2)){
+        return get<3>(t1) > get<3>(t2);
+    }
+    else if(get<1>(t1) == get<1>(t2)){
+        return get<2>(t1) > get<2>(t2);
+    }
+    else{
+         return get<1>(t1) > get<1>(t2);
+    }
+}
+
+int main() {
+
+    int N; int K;
+    cin >> N >> K;
+
+    vector<tuple<int,int,int,int>>v(N);
+
+    for(int i = 0;i<N;i++){
+        tuple<int,int,int,int>t;
+        cin >> get<0>(t) >> get<1>(t) >> get<2>(t) >> get<3>(t);
+        v[i] = t;
+    }
+
+    sort(v.begin(),v.end(),makerank);
+
+    map<int,int>Ranking;
+    int Rank {1};
+    Ranking[get<0>(v[0])] = Rank;
+        
+    for(int i = 1; i < N; i++){
+        if(get<1>(v[i]) == get<1>(v[i-1]) && get<2>(v[i]) == get<2>(v[i-1]) && get<3>(v[i]) == get<3>(v[i-1])){
+        Ranking[get<0>(v[i])] = Rank;
+        }
+        else{
+        Ranking[get<0>(v[i])] = Rank;
+        Rank++;
+        }
+    }
+
+    cout << Ranking[K];
+    
+    
+}
