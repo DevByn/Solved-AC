@@ -1,0 +1,94 @@
+#include <iostream>
+#include <stack>
+#include <vector>
+#include <cmath>
+#include <algorithm>
+#include <map>
+#include <string>
+#include <stack>
+#include <queue>
+
+using namespace std;
+
+int cal_distance(int width, int length, const pair<int,int>&x, const pair<int,int>&i){
+    if(x.first == 1){
+        if(i.first == 1){
+            return abs(x.second - i.second);
+        }
+        else if(i.first == 2){
+            return length + min(x.second + i.second,(width - x.second) + (width - i.second));
+        }
+        else if(i.first == 3){
+            return  x.second + i.second;
+        }
+        else if(i.first == 4){
+            return (width - x.second) + i.second;
+        }
+    }
+    else if(x.first == 2){
+        if(i.first == 1){
+            return length + min(x.second + i.second,(width - x.second) + (width - i.second));
+        }
+        else if(i.first == 2){
+            return abs(x.second - i.second);
+        }
+        else if(i.first == 3){
+            return  x.second + (length - i.second);
+        }
+        else if(i.first == 4){
+            return (width - x.second) + (length - i.second);
+        }
+    }
+    else if(x.first == 3){
+        if(i.first == 1){
+            return  x.second + i.second;
+        }
+        else if(i.first == 2){
+            return (length - x.second) + i.second;
+        }
+        else if(i.first == 3){
+            return abs(x.second - i.second);
+        }
+        else if(i.first == 4){
+            return width + min(x.second + i.second,(length - x.second) + (length - i.second));
+        }
+    }
+    else if(x.first == 4){
+        if(i.first == 1){
+            return  x.second + (width - i.second);
+        }
+        else if(i.first == 2){
+            return  (length - x.second) + (width - i.second);
+        }
+        else if(i.first == 3){
+            return width + min(x.second + i.second,(length - x.second) + (length - i.second));
+        }
+        else if(i.first == 4){
+            return abs(x.second - i.second);
+        }
+    }
+    return 0;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int width; int length;
+    cin >> width >> length;
+    int N;
+    cin >> N;
+    vector<pair<int,int>>stores(N);
+    for(int i = 0; i < N ;i++){
+        cin >> stores[i].first >> stores[i].second;
+    }
+    pair<int,int>x;
+    cin >> x.first >> x.second;
+
+    int ans {0};
+    for(auto& i: stores){
+        ans += cal_distance(width,length,x,i);
+    }
+    cout << ans;
+   
+}
