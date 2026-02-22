@@ -1,0 +1,63 @@
+#include <iostream>
+#include <stack>
+#include <vector>
+#include <cmath>
+#include <algorithm>
+#include <map>
+#include <string>
+#include <stack>
+#include <queue>
+
+using namespace std;
+
+const vector<pair<int,int>>grad {{-2,1},{-1,2},{1,2},{2,1},{2,-1},{1,-2},{-1,-2},{-2,-1}};
+
+int bfs(vector<vector<int>>&v, int I, pair<int,int>start, pair<int,int>end){
+    int ans{0};
+    queue<pair<int,int>>q;
+    q.push(start);
+    v[start.first][start.second] += 1;
+
+    while(!q.empty()){
+        pair<int,int>now = q.front();
+        q.pop();
+        
+        if(now.first == end.first && now.second == end.second){
+            return v[now.first][now.second];
+        }
+
+        for(auto& gradient: grad){
+            pair<int,int>next = {now.first + gradient.first, now.second + gradient.second};
+            if(next.first < I && next.first >= 0 && next.second < I && next.second >= 0 && v[next.first][next.second] == 0){
+                q.push(next);
+                v[next.first][next.second] = v[now.first][now.second] + 1;
+            }
+        }
+    }
+
+    return 0;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int T;
+    cin >> T;
+
+    while(T > 0){
+        
+    
+    int I;
+    cin >> I;
+    pair<int,int>start;
+    cin >> start.first >> start.second;
+    pair<int,int>end;
+    cin >> end.first >> end.second;
+
+    vector<vector<int>>board(I,vector<int>(I,0));
+    cout << bfs(board,I,start,end) - 1 << endl;
+        T--;
+    }
+   
+}
